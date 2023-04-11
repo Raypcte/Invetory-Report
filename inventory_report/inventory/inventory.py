@@ -1,6 +1,6 @@
-import xmltodict
 import csv
 import json
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from inventory_report.reports.simple_report import SimpleReport
 from inventory_report.reports.complete_report import CompleteReport
@@ -25,10 +25,16 @@ class Inventory:
 
     @staticmethod
     def read_xml(path) -> list[dict]:
-        with open(path, "r") as f:
-            xml_content = f.read()
-            xml_dict = xmltodict.parse(xml_content)
-            return xml_dict["dataset"]["record"]
+        tree = ET.parse(path)
+        root = tree.getroot()
+        lista_dicts = []
+        for child in root:
+            dicionario = {}
+            for subchild in child:
+                dicionario[subchild.tag] = subchild.text
+            lista_dicts.append(dicionario)
+
+        return lista_dicts
 
     @staticmethod
     def validate_file(path) -> list[dict]:
