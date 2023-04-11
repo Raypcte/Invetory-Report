@@ -31,13 +31,16 @@ class SimpleReport:
             else:
                 contador_de_empresas[empresa] = 1
 
-        return max(contador_de_empresas, key=contador_de_empresas.get)
+        return contador_de_empresas
 
     @staticmethod
     def generate(list):
         old_date_fabrication = SimpleReport.generate_old_date(list)
         next_date_validate = SimpleReport.generate_next_date(list)
-        company_max_products = SimpleReport.generate_max_products(list)
+        contador_de_empresas = SimpleReport.generate_max_products(list)
+        company_max_products = max(
+            contador_de_empresas, key=contador_de_empresas.get
+        )
 
         return (
             f"Data de fabricação mais antiga: {old_date_fabrication}\n"
