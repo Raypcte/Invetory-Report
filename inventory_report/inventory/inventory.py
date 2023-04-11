@@ -1,6 +1,6 @@
+import xmltodict
 import csv
 import json
-import xmltodict
 from pathlib import Path
 from inventory_report.reports.simple_report import SimpleReport
 from inventory_report.reports.complete_report import CompleteReport
@@ -25,8 +25,10 @@ class Inventory:
 
     @staticmethod
     def read_xml(path) -> list[dict]:
-        with open(path) as file:
-            return xmltodict.parse(file.read())['dataset']['record']
+        with open(path, "r") as f:
+            xml_content = f.read()
+            xml_dict = xmltodict.parse(xml_content)
+            return xml_dict["dataset"]["record"]
 
     @staticmethod
     def validate_file(path) -> list[dict]:
