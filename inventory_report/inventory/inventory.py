@@ -1,5 +1,6 @@
 import csv
 import json
+import xmltodict
 from pathlib import Path
 from inventory_report.reports.simple_report import SimpleReport
 from inventory_report.reports.complete_report import CompleteReport
@@ -23,6 +24,11 @@ class Inventory:
             return lista_dict
 
     @staticmethod
+    def read_xml(path) -> list[dict]:
+        with open(path) as file:
+            return xmltodict.parse(file.read())['dataset']['record']
+
+    @staticmethod
     def import_data(path, type) -> list[dict]:
         extensao = Path(path).suffix
         lista_dict = list()
@@ -30,6 +36,8 @@ class Inventory:
             lista_dict = Inventory.read_json(path)
         elif extensao == ".csv":
             lista_dict = Inventory.read_csv(path)
+        elif extensao == ".xml":
+            lista_dict = Inventory.read_xml(path)
 
         if type == "simples":
             return SimpleReport.generate(lista_dict)
