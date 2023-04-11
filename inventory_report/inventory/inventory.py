@@ -31,10 +31,8 @@ class Inventory:
     @staticmethod
     def import_data(path, type) -> list[dict]:
         extensao = Path(path).suffix
-        lista_dict = list()
-        if extensao == ".json":
-            lista_dict = Inventory.read_json(path)
-        elif extensao == ".csv":
+        lista_dict = Inventory.read_json(path)
+        if extensao == ".csv":
             lista_dict = Inventory.read_csv(path)
         elif extensao == ".xml":
             lista_dict = Inventory.read_xml(path)
